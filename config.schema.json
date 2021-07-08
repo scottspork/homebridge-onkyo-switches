@@ -449,6 +449,12 @@
                             "description": "Whether or not to show receiver volume as a linked light dimmer. Convenient for quick volume changes but Siri thinks it's a light source.",
                             "default": false
                         },
+                        "volume_speed": {
+                            "type": "boolean",
+                            "title": "Show Volume as a Fan Speed",
+                            "description": "Whether or not to show receiver volume as a linked Fan with Speed control. Convenient for quick volume changes but Siri thinks it's a Fan.",
+                            "default": false
+                        },
                         "map_volume_100": {
                             "type": "boolean",
                             "title": "Map Max Volume to 100%",
