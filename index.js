@@ -168,7 +168,7 @@ class OnkyoAccessory {
 			this.log.debug('Creating Dimmer service linked to TV for receiver %s', this.name);
 			this.createVolumeDimmer(this.tvService);
 		}
-	
+
 		if (this.volume_speed) {
 			this.log.debug('Creating Speed service linked to TV for receiver %s', this.name);
 			this.createVolumeSpeed(this.tvService);
