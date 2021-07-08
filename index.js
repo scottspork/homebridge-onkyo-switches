@@ -71,6 +71,7 @@ class OnkyoAccessory {
 			this.volume_dimmer = this.config.volume_dimmer;
 			this.log.debug('volume_dimmer: %s', this.volume_dimmer);
 		}
+		
 		if (this.config.volume_speed === undefined) {
 			this.log.error('ERROR: Your configuration is missing the parameter "volume_speed". Assuming "false".');
 			this.volume_speed = false;
@@ -167,6 +168,7 @@ class OnkyoAccessory {
 			this.log.debug('Creating Dimmer service linked to TV for receiver %s', this.name);
 			this.createVolumeDimmer(this.tvService);
 		}
+		
 		if (this.volume_speed) {
 			this.log.debug('Creating Speed service linked to TV for receiver %s', this.name);
 			this.createVolumeSpeed(this.tvService);
@@ -887,6 +889,7 @@ class OnkyoAccessory {
 
 		service.addLinkedService(this.dimmer);
 	}
+	
 	createVolumeSpeed(service) {
 		this.speed = this.accessory.addService(Service.Fan, this.name + ' Volume', 'speed');
 		this.speed
