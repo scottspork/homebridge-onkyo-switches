@@ -72,6 +72,14 @@ class OnkyoAccessory {
 			this.log.debug('volume_dimmer: %s', this.volume_dimmer);
 		}
 
+		if (this.config.volume_speed === undefined) {
+			this.log.error('ERROR: Your configuration is missing the parameter "volume_speed". Assuming "false".');
+			this.volume_speed = false;
+		} else {
+			this.volume_speed = this.config.volume_speed;
+			this.log.debug('volume_speed: %s', this.volume_speed);
+		}
+
 		if (this.config.filter_inputs === undefined) {
 			this.log.error('ERROR: Your configuration is missing the parameter "filter_inputs". Assuming "false".');
 			this.filter_inputs = false;
@@ -159,6 +167,11 @@ class OnkyoAccessory {
 		if (this.volume_dimmer) {
 			this.log.debug('Creating Dimmer service linked to TV for receiver %s', this.name);
 			this.createVolumeDimmer(this.tvService);
+		}
+	
+		if (this.volume_speed) {
+			this.log.debug('Creating Speed service linked to TV for receiver %s', this.name);
+			this.createVolumeSpeed(this.tvService);
 		}
 
 		this.platform.api.publishExternalAccessories('homebridge-onkyo', [this.accessory]);
@@ -875,6 +888,30 @@ class OnkyoAccessory {
 			.on('set', this.setVolumeState.bind(this));
 
 		service.addLinkedService(this.dimmer);
+	}
+
+	createVolumeSpeed(service) {
+		this.speed = this.accessory.addService(Service.Fan, this.name + ' Volume', 'speed');
+		this.speed
+			.getCharacteristic(Characteristic.On)
+			// Inverted logic taken from https://github.com/langovoi/homebridge-upnp
+			.on('get', callback => {
+				this.getMuteState((error, value) => {
+					if (error) {
+						callback(error);
+						return;
+					}
+
+					callback(null, !value);
+				});
+			})
+			.on('set', (value, callback) => this.setMuteState(!value, callback));
+		this.speed
+			.addCharacteristic(Characteristic.RotationSpeed)
+			.on('get', this.getVolumeState.bind(this))
+			.on('set', this.setVolumeState.bind(this));
+
+		service.addLinkedService(this.speed);
 	}
 
 	createTvService(accessory) {
