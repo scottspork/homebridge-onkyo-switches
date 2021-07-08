@@ -1,4 +1,5 @@
 'use strict';
+/* eslint arrow-body-style: ["off", "never"] */
 
 let Service;
 let Characteristic;
@@ -126,7 +127,7 @@ class OnkyoAccessory {
 			[Characteristic.RemoteKey.BACK]: 'exit', // 9
 			[Characteristic.RemoteKey.EXIT]: 'exit', // 10
 			[Characteristic.RemoteKey.PLAY_PAUSE]: 'play', // 11
-			[Characteristic.RemoteKey.INFORMATION]: 'home' // 15
+			[Characteristic.RemoteKey.INFORMATION]: 'home', // 15
 		};
 
 		this.state = false;
@@ -168,7 +169,7 @@ class OnkyoAccessory {
 			this.log.debug('Creating Dimmer service linked to TV for receiver %s', this.name);
 			this.createVolumeDimmer(this.tvService);
 		}
-	
+
 		if (this.volume_speed) {
 			this.log.debug('Creating Speed service linked to TV for receiver %s', this.name);
 			this.createVolumeSpeed(this.tvService);
@@ -352,10 +353,10 @@ class OnkyoAccessory {
 				input = input.slice(0, input.indexOf(','));
 
 			// Convert to i_state input code
-			const index =
-				input !== null ? // eslint-disable-line no-negated-condition
-				RxInputs.Inputs.findIndex(i => i.label === input) :
-				-1;
+			const index
+				= input !== null // eslint-disable-line no-negated-condition
+				? RxInputs.Inputs.findIndex(i => i.label === input)
+				: -1;
 			if (this.i_state !== (index + 1))
 				this.log.info('Event - Input changed: %s', input);
 
@@ -452,10 +453,10 @@ class OnkyoAccessory {
 							});
 						}
 
-						const index =
-							label !== null ? // eslint-disable-line no-negated-condition
-							RxInputs.Inputs.findIndex(i => i.label === label) :
-							-1;
+						const index
+							= label !== null // eslint-disable-line no-negated-condition
+							? RxInputs.Inputs.findIndex(i => i.label === label)
+							: -1;
 						this.i_state = index + 1;
 
 						if (powerOn && label) {
@@ -839,12 +840,12 @@ class OnkyoAccessory {
 			.setCharacteristic(Characteristic.ConfiguredName, name)
 			.setCharacteristic(
 			Characteristic.IsConfigured,
-			Characteristic.IsConfigured.CONFIGURED
+			Characteristic.IsConfigured.CONFIGURED,
 			)
 			.setCharacteristic(Characteristic.InputSourceType, inputSourceType);
 
 		input.getCharacteristic(Characteristic.ConfiguredName).setProps({
-			perms: [Characteristic.Perms.READ]
+			perms: [Characteristic.Perms.READ],
 		});
 
 		television.addLinkedService(input);
@@ -922,7 +923,7 @@ class OnkyoAccessory {
 			.getCharacteristic(Characteristic.ConfiguredName)
 			.setValue(this.name)
 			.setProps({
-				perms: [Characteristic.Perms.READ]
+				perms: [Characteristic.Perms.READ],
 			});
 
 		tvService
