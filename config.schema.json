@@ -452,7 +452,7 @@
                               { "title": "Light Dimmer", "enum": ["dimmer"] },
                               { "title": "Fan Speed", "enum": ["speed"] },
                               { "title": "None", "enum": ["none"] }
-                             ],
+                            ],
                             "required": true
                         },
                         "map_volume_100": {
