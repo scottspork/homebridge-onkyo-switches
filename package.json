@@ -1,6 +1,6 @@
 {
   "name": "homebridge-onkyo",
-  "version": "2021.28.1",
+  "version": "2021.32.1",
   "description": "Homebridge plugin for Onkyo Receivers",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "devDependencies": {
     "eslint": ">=7.30.0",
     "eslint-plugin-ava": "^12.0.0",
-    "eslint-plugin-unicorn": "^25.0.1",
+    "eslint-plugin-unicorn": "latest",
     "eslint-plugin-json": "^3.0.0",
     "xo": ">=0.40.1"
   },
@@ -41,6 +41,9 @@
   "xo": {
     "space": false,
     "rules": {
+      "unicorn/prefer-module": "warn",
+      "unicorn/no-new-array": "warn",
+      "unicorn/no-array-for-each": "warn",
       "camelcase": "off",
       "kebabCase": "off",
       "no-mixed-spaces-and-tabs": "warn",

@@ -1,4 +1,3 @@
-'use strict';
 /* eslint arrow-body-style: ["off", "never"] */
 
 let Service;
@@ -28,7 +27,7 @@ class OnkyoPlatform {
 		platform.numberReceivers = platform.receivers.length;
 		platform.log.debug('Creating %s receivers...', platform.numberReceivers);
 		if (platform.numberReceivers === 0) return;
-		receivers.forEach(receiver => {
+		receivers.forEach(receiver => { // eslint-disable-line unicorn/no-array-for-each
 			if (!this.connections[receiver.ip_address]) {
 				platform.log.debug('Creating new connection for ip %s', receiver.ip_address);
 				this.connections[receiver.ip_address] = require('eiscp');
@@ -131,7 +130,7 @@ class OnkyoAccessory {
 		this.avrSerial = this.config.serial || this.ip_address;
 		this.log.debug('avrSerial: %s', this.avrSerial);
 		this.switchHandling = 'check';
-		if (this.interval > 10 && this.interval < 100000)
+		if (this.interval > 10 && this.interval < 100_000)
 			this.switchHandling = 'poll';
 
 		this.eiscp.on('debug', this.eventDebug.bind(this));
