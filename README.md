@@ -7,7 +7,7 @@
 ![CodeQL](https://github.com/ToddGreenfield/homebridge-onkyo/workflows/CodeQL/badge.svg)
 
 Homebridge plugin for Onkyo Receivers
-Should work for all supported models as listed in the node_modules/eiscp/eiscp-commands.json. If your model is not listed, try TX-NR609.
+Should work for all supported models as listed in the eiscp/eiscp-commands.json file. If your model is not listed, try TX-NR609.
 
 # Description
 
@@ -16,27 +16,17 @@ Existing users of my original fork or gw-wiscon's be sure to update the "platfor
 
 # Changelog
 
-* Version 0.8.0 supports more models with a newer version of eiscp.js. Also includes bug and performance fixes.
-* Version 0.7.5 introduces linter check for JSON files and code quality check using xo. Developers can now use "npm test" before submitting a pull request.
-* Version 0.7 iOS 12.2+ is now required. This is now a Platform, theoretically supporting multiple receivers. Each receiver is a TV accessory (which is why iOS 12.2+ is required). Input labels can customized with `inputs` in the config. An optional Dimmer service for separate volume control is available, useful for non-iPhone control and more advanced automations (it appears as a dimmable light bulb). To disable the volume dimmer, add `"volume_dimmer": false` to your receiver in config.
-* Version 0.6 includes support for zone2. Adds a new config parameter called "zone" and use "zone2". Thanks for the contrib mbbeaubi.
-* Version 0.5.x includes support for input-selector. Available inputs are dynamically pulled from the eiscp-commands.json file. Note: Not all inputs may work with your receiver.
-* Version 0.4.x includes support for volume, mute, and has options for setting default_input.
+Changes are tracked via [Github Releases](https://github.com/ToddGreenfield/homebridge-onkyo/releases).
+
+# Volume Control
 
 For Siri Control of Volume, Mute, and Input - Use an app like EVE which has control sliders and create scenes for "Volume Mute" or "Volume Unmute", and/or various volume level scenes like "Volume Low" or "Volume Loud", or for inputs like "input network" or "input fm". It may be easiest to set the volume or Input first using the OnkyoRemote3 app and then creating the scenes so the volume or input is pre-set (without using the slider).
 
 For Alexa Control of Volume, Mute, Input - (if using the Alexa plugin) - create DummySwitches (homebridge-dummy) and setup an automation to run the scene created from above. "Alexa, turn on Volume Loud."
 
-# To Do
-
-Auto discovery of all receivers on the network (if more than one exist) and other flexibility.
-Adding Speaker A/B on/off control
-Others...
-
 # Installation
 
 As a prerequisite ensure that the Onkyo receiver is controllable using the OnkyoRemote3 iOS app.
-You also need to have [git](https://github.com/git/git) installed.
 
 It is recommended to install and configure this plugin using [homebridge-config-ui-x](https://github.com/oznu/homebridge-config-ui-x#readme), however you can also install manually using the following manual tasks:
 
@@ -104,3 +94,9 @@ Receiver Attributes         |
 For Troubleshooting look in the homebridge-onkyo/node_modules/eiscp/examples directory and see if you can run 3.js. "node 3.js". It should output all available commands.
 
 You can find the output also in the [wiki](https://github.com/ToddGreenfield/homebridge-onkyo/wiki/EISCP-output-of-3.js).
+
+# EISCP Dependency
+
+This plugin depends on an EISCP library. As the needed package does not reside on NPM installation of this dependency caused various problems. As a workaround, the library was copied into this project in the eiscp folder. As the library was not updated for years it is unlikely that this project misses updates on the library.
+Please note that the EISCP library is not  covered under the license of of homebridge-onkyo and comes with its own license in the EISCP folder.
+The original Github repository is [untitledlt / eiscp.js](https://github.com/untitledlt/eiscp.js).

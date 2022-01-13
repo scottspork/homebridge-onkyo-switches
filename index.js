@@ -30,7 +30,7 @@ class OnkyoPlatform {
 		receivers.forEach(receiver => { // eslint-disable-line unicorn/no-array-for-each
 			if (!this.connections[receiver.ip_address]) {
 				platform.log.debug('Creating new connection for ip %s', receiver.ip_address);
-				this.connections[receiver.ip_address] = require('eiscp');
+				this.connections[receiver.ip_address] = require('./eiscp/eiscp.js');
 				this.connections[receiver.ip_address].connect({host: receiver.ip_address, reconnect: true, model: receiver.model});
 			}
 
@@ -166,7 +166,7 @@ class OnkyoAccessory {
 
 	createRxInput() {
 	// Create the RxInput object for later use.
-		const eiscpDataAll = require('eiscp/eiscp-commands.json');
+		const eiscpDataAll = require('./eiscp/eiscp-commands.json');
 		const inSets = [];
 		let set;
 /* eslint guard-for-in: "off" */
