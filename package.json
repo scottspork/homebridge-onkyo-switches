@@ -30,8 +30,8 @@
     "onkyo"
   ],
   "engines": {
-    "node": ">=12.22.1",
-    "homebridge": ">=1.3.0"
+    "node": ">=14.19.1",
+    "homebridge": ">=1.4.0"
   },
   "author": "gw-wiscon <gw.wiscon@gmail.com>",
   "license": "ISC",
