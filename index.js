@@ -370,7 +370,7 @@ class OnkyoAccessory {
 			this.tvService.getCharacteristic(Characteristic.ActiveIdentifier).updateValue(this.i_state);
 
 		if (this.allInputSwitches[this.i_state]) {
-			this.allInputSwitches[this.i_state].setCharacteristic(Characteristic.On, true);
+			this.allInputSwitches[this.i_state].getCharacteristic(Characteristic.On).updateValue(true);
 		}
 	}
 
@@ -775,7 +775,7 @@ class OnkyoAccessory {
 			this.tvService.getCharacteristic(Characteristic.ActiveIdentifier).updateValue(this.i_state);
 
 		if (this.allInputSwitches[this.i_state] && !context) {
-			this.allInputSwitches[this.i_state].setCharacteristic(Characteristic.On, true);
+			this.allInputSwitches[this.i_state].getCharacteristic(Characteristic.On).updateValue(true);
 		}
 	}
 
@@ -866,17 +866,12 @@ class OnkyoAccessory {
 				.on('set', (value, callback) => {
 					this.log.info('inputSwitch set %s, value: %s, hapId: %s', name, value, hapId);
 					if (!value) {
-						return callback();
+						return callback(null, false);
 					}
 					
-					Object.keys(this.allInputSwitches).forEach(key => {
-						if (key == hapId) {
-							return;
-						}
-						this.allInputSwitches[key].setCharacteristic(Characteristic.On, key == hapId);
-					});
-
-					this.setInputSource(hapId, callback, 'switch');
+					this.setInputSource(hapId, () => {
+						callback(null, true);
+					}, 'switch');
 				});
 			this.allInputSwitches[hapId] = inputSwitch;
 			television.addLinkedService(inputSwitch);
