@@ -869,7 +869,7 @@ class OnkyoAccessory {
 						if (key == hapId) {
 							return;
 						}
-						this.allInputSwitches[key].setCharacteristic(Characteristic.On, key == this.i_state);
+						this.allInputSwitches[key].setCharacteristic(Characteristic.On, key == hapId);
 					});
 
 					this.setInputSource(hapId, callback, 'switch');
