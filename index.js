@@ -54,6 +54,8 @@ class OnkyoAccessory {
 		this.eiscp = platform.connections[receiver.ip_address];
 		this.setAttempt = 0;
 
+		this.allInputSwitches = {};
+
 		this.config = receiver;
 		this.name = this.config.name;
 		this.log.debug('name %s', this.name);
@@ -78,6 +80,14 @@ class OnkyoAccessory {
 		} else {
 			this.filter_inputs = this.config.filter_inputs;
 			this.log.debug('filter_inputs: %s', this.filter_inputs);
+		}
+
+		if (this.config.inputs_as_switches === undefined) {
+			this.log.error('ERROR: Your configuration is missing the parameter "inputs_as_switches". Assuming "false".');
+			this.inputs_as_switches = false;
+		} else {
+			this.inputs_as_switches = this.config.inputs_as_switches;
+			this.log.debug('inputs_as_switches: %s', this.inputs_as_switches);
 		}
 
 		this.inputs = this.config.inputs;
@@ -759,6 +769,10 @@ class OnkyoAccessory {
 		// Communicate status
 		if (this.tvService)
 			this.tvService.getCharacteristic(Characteristic.ActiveIdentifier).updateValue(this.i_state);
+
+		Object.keys(this.allInputSwitches).forEach(key => {
+			this.allInputSwitches[key].setCharacteristic(Characteristic.On, key == this.i_state);
+		});
 	}
 
 	remoteKeyPress(button, callback) {
@@ -835,6 +849,27 @@ class OnkyoAccessory {
 		});
 
 		television.addLinkedService(input);
+
+		if (this.inputs_as_switches) {
+			const inputSwitch = this.accessory.addService(Service.Switch, name + ' Switch', inputCode + 'Switch');
+
+			inputSwitch
+				.getCharacteristic(Characteristic.On)
+				.on('get', callback => {
+					this.log.info('inputSwitch get %s, hapId: %s, i_state: %s', name, hapId, this.i_state);
+					callback(null, Boolean(this.i_state == hapId));
+				})
+				.on('set', (value, callback) => {
+					this.log.info('inputSwitch set %s, value: %s, hapId: %s', name, value, hapId);
+					if (!value) {
+						return callback();
+					}
+					
+					this.setInputSource(hapId, callback);
+				});
+			this.allInputSwitches[hapId] = inputSwitch;
+			television.addLinkedService(inputSwitch);
+		}
 		return input;
 	}
 

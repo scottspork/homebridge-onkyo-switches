@@ -432,6 +432,12 @@
                             "description": "Whether or not to limit exposed inputs to the provided mapping. If true, no other inputs will be exposed.",
                             "default": true
                         },
+                        "inputs_as_switches": {
+                            "type": "boolean",
+                            "title": "Inputs as switches",
+                            "description": "Whether or not to expose inputs additionally as switches.",
+                            "default": true
+                        },
                         "default_volume": {
                             "type": "integer",
                             "title": "Default Volume",
