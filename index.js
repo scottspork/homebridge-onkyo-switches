@@ -368,6 +368,10 @@ class OnkyoAccessory {
 		// Communicate status
 		if (this.tvService)
 			this.tvService.getCharacteristic(Characteristic.ActiveIdentifier).updateValue(this.i_state);
+
+		if (this.allInputSwitches[this.i_state]) {
+			this.allInputSwitches[this.i_state].setCharacteristic(Characteristic.On, true);
+		}
 	}
 
 	eventVolume(response) {
