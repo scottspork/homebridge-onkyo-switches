@@ -369,9 +369,9 @@ class OnkyoAccessory {
 		if (this.tvService)
 			this.tvService.getCharacteristic(Characteristic.ActiveIdentifier).updateValue(this.i_state);
 
-		if (this.allInputSwitches[this.i_state]) {
-			this.allInputSwitches[this.i_state].getCharacteristic(Characteristic.On).updateValue(true);
-		}
+		Object.keys(this.allInputSwitches).forEach(key => {
+			this.allInputSwitches[key].getCharacteristic(Characteristic.On).updateValue(key == this.i_state);
+		});
 	}
 
 	eventVolume(response) {
@@ -774,9 +774,9 @@ class OnkyoAccessory {
 		if (this.tvService)
 			this.tvService.getCharacteristic(Characteristic.ActiveIdentifier).updateValue(this.i_state);
 
-		if (this.allInputSwitches[this.i_state] && !context) {
-			this.allInputSwitches[this.i_state].getCharacteristic(Characteristic.On).updateValue(true);
-		}
+		Object.keys(this.allInputSwitches).forEach(key => {
+			this.allInputSwitches[key].getCharacteristic(Characteristic.On).updateValue(key == this.i_state);
+		});
 	}
 
 	remoteKeyPress(button, callback) {
