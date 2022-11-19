@@ -65,6 +65,8 @@ function iscp_to_command(iscp_message) {
         value = iscp_message.slice(3),
         result = {};
 
+    self.emit('debug', util.format('DEBUG (iscp_to_command) command is "%s", value is "%s", raw is "%s"', command, value, iscp_message));
+
     Object.keys(COMMANDS).forEach(function (zone) {
 
         if (typeof COMMANDS[zone][command] !== 'undefined') {
