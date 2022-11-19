@@ -62,7 +62,7 @@ function iscp_to_command(iscp_message) {
       Transform a low-level ISCP message to a high-level command
     */
     var command = iscp_message.slice(0, 3),
-        value = iscp_message.slice(3),
+        value = iscp_message.slice(3).split('\u001a\r\n')[0],
         result = {};
 
     self.emit('debug', util.format('DEBUG (iscp_to_command) command is "%s", value is "%s", raw is "%s"', command, value, iscp_message));
